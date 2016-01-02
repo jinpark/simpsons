@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Season:</strong>
+  <%= @screenshot.season %>
+</p>
+
+<p>
+  <strong>Episode number:</strong>
+  <%= @screenshot.episode_number %>
+</p>
+
+<p>
+  <strong>Time start:</strong>
+  <%= @screenshot.time_start %>
+</p>
+
+<p>
+  <strong>Time end:</strong>
+  <%= @screenshot.time_end %>
+</p>
+
+  <strong>Screenshot path:</strong>
+  <%= @screenshot.screenshot_path %>
+</p>
+
+<%= link_to 'Edit', edit_screenshot_path(@screenshot) %> |
+<%= link_to 'Back', screenshots_path %>

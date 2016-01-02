@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<video id="video" controls poster="/thumbnails/<%= @video.thumbnail_path %>">
+  <source src="<%= @video.video_path %>" type="video/mp4">  
+</video>
+
+<p>
+  <strong>Title:</strong>
+  <%= @video.title %>
+</p>
+
+<p>
+  <strong>Season:</strong>
+  <%= @video.season %>
+</p>
+
+<p>
+  <strong>Episode number:</strong>
+  <%= @video.episode_number %>
+</p>
+
+<p>
+  <strong>Thumbnail path:</strong>
+  <%= @video.thumbnail_path %>
+</p>
+
+<p>
+  <strong>Video path:</strong>
+  <%= @video.video_path %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @video.slug %>
+</p>
+
+<%= link_to 'Edit', edit_video_path(@video) %> |
+<%= link_to 'Back', videos_path %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  season: 1
+  episode_number: 1
+  time_start: 2016-01-02 17:07:07
+  time_end: 2016-01-02 17:07:07
+
+two:
+  season: 1
+  episode_number: 1
+  time_start: 2016-01-02 17:07:07
+  time_end: 2016-01-02 17:07:07

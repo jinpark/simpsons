@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  season: 1
+  episode_number: 1
+  thumbnail_path: MyString
+  video_path: MyString
+  slug: MyString
+
+two:
+  title: MyString
+  season: 1
+  episode_number: 1
+  thumbnail_path: MyString
+  video_path: MyString
+  slug: MyString
