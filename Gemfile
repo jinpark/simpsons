@@ -49,3 +49,9 @@ gem 'rails_admin'
 
 gem 'streamio-ffmpeg'
 
+gem 'therubyracer'
+gem 'less-rails', github: 'metaskills/less-rails'
+gem 'less-rails-semantic_ui', '~> 2.1.7'
+
+gem 'puma'
+

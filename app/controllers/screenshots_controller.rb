@@ -35,7 +35,7 @@ class ScreenshotsController < ApplicationController
     else 
       params[:screenshot][:screenshot_path] = screenshot_path + ".jpg"
       screenshot_absolute_path = "#{Rails.public_path}#{params[:screenshot][:screenshot_path]}"
-      movie.screenshot(screenshot_absolute_path, { seek_time: params[:screenshot][:time_start] }, preserve_aspect_ratio: :width)
+      movie.screenshot(screenshot_absolute_path, { seek_time: params[:screenshot][:time_start] })
     end
     @screenshot = Screenshot.new(screenshot_params)
 

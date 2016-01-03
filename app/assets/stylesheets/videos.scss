@@ -1,3 +1,41 @@
 // Place all the styles related to the Videos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#video {
+    width: 100vw;
+    height: 100vh;
+}
+
+.button-list {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
+// .info-popup {
+//     position: absolute;
+//     top: 10px;
+//     right: 5px;
+//     z-index: 1;
+//     background: rgba(256, 256, 256, 0.3) !important;
+    
+//     ul {
+//         list-style-type: none;
+//     }
+// }
+
+// .screenshot {
+//     position: absolute;
+//     bottom: 10px;
+//     right: 10px;
+//     z-index: 1;
+// }
+
+// .gif {
+//     position: absolute;
+//     bottom: 10px;
+//     left: 10px;
+//     z-index: 1;
+// }

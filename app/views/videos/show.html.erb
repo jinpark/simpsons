@@ -1,38 +1,124 @@
 <p id="notice"><%= notice %></p>
+<div class="button-list">
+  <div class="ui icon button info-popup"><i class="info circle icon"></i></div>
+  <div class="ui flowing popup bottom right transition hidden">
+    <div>
+      <ul>
+        <li>
+          Title: <%= @video.title %>
+        </li>
+        <li>
+          Season <%= @video.season %> Episode <%= @video.episode_number %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <button class="ui icon button screenshot" id="screenshot"><i class="photo icon"></i></button>
+  <button class="ui icon button gif" id="gif"><i class="video play icon"></i></button>
+  <div class="ui flowing popup bottom right transition hidden">
+    <input type="text" class="copy" readonly>
+    <i class="copy icon"></i>
+  </div>
+</div>
 
-<video id="video" controls poster="/thumbnails/<%= @video.thumbnail_path %>">
-  <source src="<%= @video.video_path %>" type="video/mp4">  
+<video id="video" class="video-js vjs-big-play-centered" controls preload="auto" poster="<%= @video.thumbnail_path %>" data-setup="{}">
+  <source src="<%= @video.video_path %>" type='video/mp4'>
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a web browser that
+    <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+  </p>
 </video>
 
-<p>
-  <strong>Title:</strong>
-  <%= @video.title %>
-</p>
-
-<p>
-  <strong>Season:</strong>
-  <%= @video.season %>
-</p>
-
-<p>
-  <strong>Episode number:</strong>
-  <%= @video.episode_number %>
-</p>
-
-<p>
-  <strong>Thumbnail path:</strong>
-  <%= @video.thumbnail_path %>
-</p>
-
-<p>
-  <strong>Video path:</strong>
-  <%= @video.video_path %>
-</p>
-
-<p>
-  <strong>Slug:</strong>
-  <%= @video.slug %>
-</p>
-
-<%= link_to 'Edit', edit_video_path(@video) %> |
-<%= link_to 'Back', videos_path %>
+<script type="text/javascript">
+  var watched = Cookies.getJSON('watched');
+  if (watched) {
+    if (watched.indexOf( <%= @video.id %> ) < -1 ) {
+      watched.push(<%= @video.id %>);
+      Cookies.set('watched', watched);
+    }
+  } else {
+    Cookies.set('watched', [<%= @video.id %>]);
+  }
+  $('.info-popup').popup();
+  $('.screenshot, .gif').popup({
+    inline: true,
+    on: 'manual'
+  });
+  var recording = false;
+  var startTime, endTime;
+  $(document).ready(function(){
+    $('#gif').click(function(){
+      $('#gif i').toggleClass('video play circle red');
+      if (recording == false) {
+        recording = true;
+        startTime = $('video')[0].currentTime;
+      } else {
+        recording = false;
+        endTime = $('video')[0].currentTime;
+        $.ajax({
+          type: 'POST',
+          url: '/screenshots.json', 
+          dataType: "json",
+          data: {
+            video_id: <%= @video.id %>,
+            screenshot: {
+              time_start: startTime,
+              time_end: endTime,
+              season: <%= @video.season %>,
+              episode_number: <%= @video.episode_number %>
+            }
+          }
+        }).done(function(data){
+          console.log(data);
+          $('.copy').val(document.location.origin + data.screenshot_path);
+          var clipboard = new Clipboard('.copy', {
+              text: function(trigger) {
+                  return $(trigger).val();
+              }
+          });
+          clipboard.on('success', function(e) {
+              $('.screenshot, .gif').popup('toggle');
+          });
+          $('.screenshot, .gif').popup('toggle');
+          $('#gif i').removeClass();
+          $('#gif i').addClass('icon video play');
+          $('#gif').toggleClass('disabled');
+        })
+        $('#gif i').removeClass();
+        $('#gif i').addClass('icon spinner');
+        $('#gif').toggleClass('disabled');
+      }
+    });
+    $('.screenshot').click(function(){
+      $.ajax({
+        type: 'POST',
+        url: '/screenshots.json', 
+        dataType: "json",
+        data: {
+          video_id: <%= @video.id %>,
+          screenshot: {
+            time_start: $('video')[0].currentTime,
+            season: <%= @video.season %>,
+            episode_number: <%= @video.episode_number %>
+          }
+        }
+      }).done(function(data){
+        console.log(data);
+        $('.screenshot i').toggleClass('photo spinner');
+        $('.screenshot').toggleClass('disabled');
+        $('.copy').val(document.location.origin + data.screenshot_path);
+        var clipboard = new Clipboard('.copy', {
+            text: function(trigger) {
+                return $(trigger).val();
+            }
+        });
+        clipboard.on('success', function(e) {
+            $('.screenshot, .gif').popup('toggle');
+        });
+        $('.screenshot, .gif').popup('toggle');
+      })
+      $('.screenshot i').toggleClass('photo spinner');
+      $('.screenshot').toggleClass('disabled');
+    })
+  })
+</script>

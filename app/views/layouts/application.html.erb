@@ -4,11 +4,13 @@
   <title>Simpsons</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <link href="http://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet">
   <%= csrf_meta_tags %>
 </head>
 <body>
 
 <%= yield %>
 
+<script src="http://vjs.zencdn.net/5.4.4/video.js"></script>
 </body>
 </html>
