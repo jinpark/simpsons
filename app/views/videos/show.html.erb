@@ -1,28 +1,21 @@
 <p id="notice"><%= notice %></p>
 <div class="button-list">
-  <div class="ui icon button info-popup"><i class="info circle icon"></i></div>
-  <div class="ui flowing popup bottom right transition hidden">
-    <div>
-      <ul>
-        <li>
-          Title: <%= @video.title %>
-        </li>
-        <li>
-          Season <%= @video.season %> Episode <%= @video.episode_number %>
-        </li>
-      </ul>
-    </div>
-  </div>
   <button class="ui icon button screenshot" id="screenshot"><i class="photo icon"></i></button>
   <button class="ui icon button gif" id="gif"><i class="video play icon"></i></button>
-  <div class="ui flowing popup bottom right transition hidden">
+  <div class="ui popup bottom right transition hidden">
     <input type="text" class="copy" readonly>
     <i class="copy icon"></i>
+  </div>
+  <div class="ui icon button info-popup"><i class="info circle icon"></i></div>
+  <div class="ui flowing popup bottom right transition hidden">
+    <p><%= @video.title %></p>
+    <p>Season <%= @video.season %> Episode <%= @video.episode_number %></p>
   </div>
 </div>
 
 <video id="video" class="video-js vjs-big-play-centered" controls preload="auto" poster="<%= @video.thumbnail_path %>" data-setup="{}">
   <source src="<%= @video.video_path %>" type='video/mp4'>
+  <track kind="captions" src="<%= @video.subtitle_path %>" srclang="en" label="English" default>
   <p class="vjs-no-js">
     To view this video please enable JavaScript, and consider upgrading to a web browser that
     <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
