@@ -1,23 +1,29 @@
 <p id="notice"><%= notice %></p>
 
 <h1 class="ui center aligned header">Simpsons</h1>
+
+
+<% @videos_seasons.each do |season| %>
+<h2 class="ui center aligned header">Season <%= season %></h2>
 <div class="ui six doubling cards grid container">
-<% @videos.each do |video| %>
-  <div class="card" data-video-id="<%= video.id %>">
-    <div class="blurring dimmable image">
-      <div class="ui">
+  <% @videos[season].sort_by(&:episode_number).each do |video| %>
+    <div class="card" data-video-id="<%= video.id %>">
+      <div class="blurring dimmable image">
+        <div class="ui">
+        </div>
+        <img class="lazy" data-original="<%= video.thumbnail_path %>">
       </div>
-      <img class="lazy" data-original="<%= video.thumbnail_path %>">
-    </div>
-    <div class="content">
-      <a class="header" href="/watch/<%= video.season %>/<%= video.episode_number %>"><%= video.title %></a>
-      <div class="meta">
-        S<%= video.season %> E<%= video.episode_number %>
+      <div class="content">
+        <a class="header" href="/watch/<%= video.season %>/<%= video.episode_number %>"><%= video.title %></a>
+        <div class="meta">
+          S<%= video.season %> E<%= video.episode_number %>
+        </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
 </div>
+<% end %>
+
 
 <script type="text/javascript">
   $(function() {
@@ -27,8 +33,9 @@
         for (var i = 0; i < watched.length; i++) {
           $('[data-video-id="' + watched[i] + '"]').find('.ui').addClass('dimmed')
         }
+        $('.ui.dimmed').parent('.dimmable.image').dimmer('show');
       }
-      $('.dimmable.image').dimmer('show');
+      
   });
 
 </script>

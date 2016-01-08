@@ -5,15 +5,18 @@ class VideosController < ApplicationController
   # GET /videos
   # GET /videos.json
   def index
-    if !cookies[:random_list]
-        random_videos = Video.random(Video.count)
-        random_ids = random_videos.pluck('id')
-        cookies[:random_list] = ActiveSupport::JSON.encode(random_ids)
-    else
-        random_ids = ActiveSupport::JSON.decode(cookies[:random_list])
-    end
-    random_list_sorted_videos = Video.find(random_ids).index_by(&:id).slice(*random_ids).values
-    @videos = random_list_sorted_videos
+    # if !cookies[:random_list]
+    #     random_videos = Video.random(Video.count)
+    #     random_ids = random_videos.pluck('id')
+    #     cookies[:random_list] = ActiveSupport::JSON.encode(random_ids)
+    # else
+    #     random_ids = ActiveSupport::JSON.decode(cookies[:random_list])
+    # end
+    # random_list_sorted_videos = Video.find(random_ids).index_by(&:id).slice(*random_ids).values
+    # @videos = random_list_sorted_videos
+    @videos = Video.all.group_by(&:season)
+    @videos_seasons = @videos.keys
+
   end
 
   # GET /videos/1

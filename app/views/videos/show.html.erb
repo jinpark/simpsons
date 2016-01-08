@@ -17,7 +17,7 @@
 
 <video id="video" class="video-js vjs-big-play-centered" controls preload="auto" poster="<%= @video.thumbnail_path %>">
   <source src="<%= @video.video_path %>">
-  <track kind="subtitles" src="<%= @video.subtitle_path %>" srclang="en" label="English" default>
+  <track kind="captions" src="<%= @video.subtitle_path %>" srclang="en" label="English" default>
   <p class="vjs-no-js">
     To view this video please enable JavaScript, and consider upgrading to a web browser that
     <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -33,7 +33,7 @@
   })
   var watched = Cookies.getJSON('watched');
   if (watched) {
-    if (watched.indexOf( <%= @video.id %> ) < -1 ) {
+    if (watched.indexOf( <%= @video.id %> ) < 0 ) {
       watched.push(<%= @video.id %>);
       Cookies.set('watched', watched);
     }
