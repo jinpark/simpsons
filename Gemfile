@@ -47,7 +47,7 @@ end
 
 gem 'rails_admin'
 
-gem 'streamio-ffmpeg'
+gem 'streamio-ffmpeg', github: 'jinpark/streamio-ffmpeg'
 
 gem 'therubyracer'
 gem 'less-rails', github: 'metaskills/less-rails'

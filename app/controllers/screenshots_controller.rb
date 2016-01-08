@@ -26,7 +26,7 @@ class ScreenshotsController < ApplicationController
   def create
     video = Video.find(params[:video_id].to_i)
     movie = FFMPEG::Movie.new("#{Rails.public_path}#{video.video_path}")
-    screenshot_path = "/screenshots/s#{video.season}-e#{video.episode_number}-#{params[:screenshot][:time_start]}"
+    screenshot_path = "/video_assets/screenshots/s#{video.season}-e#{video.episode_number}-#{params[:screenshot][:time_start]}"
     if params[:screenshot][:time_end]
       params[:screenshot][:screenshot_path] = screenshot_path + ".gif"
       screenshot_absolute_path = "#{Rails.public_path}#{params[:screenshot][:screenshot_path]}"

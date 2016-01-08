@@ -10,6 +10,7 @@ ADD Gemfile.lock /code/Gemfile.lock
 RUN echo 'install: --no-document\nupdate: --no-document' >> "$HOME/.gemrc"
 RUN gem install bundler && bundle install
 
-EXPOSE 3000
+EXPOSE 9292
 
-CMD RAILS_ENV=production bundle exec rails s Puma -p 9292 -b 0.0.0.0
+# CMD RAILS_ENV=production bundle exec rails s Puma -p 9292 -b 0.0.0.0
+CMD bundle exec puma -e production --control tcp://0.0.0.0:9293 --control-token cats

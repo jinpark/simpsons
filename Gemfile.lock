@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/jinpark/streamio-ffmpeg.git
+  revision: 6091a827cad876fac944bec7083edc75aad63c92
+  specs:
+    streamio-ffmpeg (1.0.0)
+
+GIT
   remote: git://github.com/metaskills/less-rails.git
   revision: 539f28d174bfb2e6969a9cd04f89e65a730f2e8f
   specs:
@@ -170,7 +176,6 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.11)
-    streamio-ffmpeg (1.0.0)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -207,7 +212,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   spring
   sqlite3
-  streamio-ffmpeg
+  streamio-ffmpeg!
   therubyracer
   turbolinks
   uglifier (>= 1.3.0)
