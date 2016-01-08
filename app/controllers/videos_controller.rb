@@ -65,6 +65,20 @@ class VideosController < ApplicationController
   #   end
   # end
 
+  def random
+    video = Video.random(Video.count).first
+    redirect_to "/watch/#{video.season}/#{video.episode_number}"
+  end
+
+  def history
+    @videos = []
+    if cookies[:watched]
+        video_ids = ActiveSupport::JSON.decode(cookies[:watched])
+        unsorted_videos = Video.find(video_ids)
+        @videos = video_ids.collect {|id| unsorted_videos.detect {|video| video.id == id}}
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_video

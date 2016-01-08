@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   resources :screenshots
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'watch/:season/:episode_number/' => 'videos#show'
+  get 'videos/random' => 'videos#random'
   resources :videos
+  get 'history' => 'videos#history'
   root to: 'videos#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

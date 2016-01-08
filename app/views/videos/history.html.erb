@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1 class="ui center aligned header">History</h1>
+
+<div class="ui six doubling cards grid container">
+  <% @videos.each do |video| %>
+    <div class="card" data-video-id="<%= video.id %>">
+      <div class="blurring dimmable image">
+        <div class="ui">
+        </div>
+        <img class="lazy" data-original="<%= video.thumbnail_path %>">
+      </div>
+      <div class="content">
+        <a class="header" href="/watch/<%= video.season %>/<%= video.episode_number %>"><%= video.title %></a>
+        <div class="meta">
+          S<%= video.season %> E<%= video.episode_number %>
+        </div>
+      </div>
+    </div>
+</div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(function() {
+      $("img.lazy").lazyload();     
+  });
+
+</script>

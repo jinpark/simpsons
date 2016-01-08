@@ -18,3 +18,8 @@
 p#notice {
     position: absolute;
 }
+
+.sidebar-button {
+    position: absolute !important;
+    z-index: 2;
+}

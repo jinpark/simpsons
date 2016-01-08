@@ -2,28 +2,33 @@
 <html>
 <head>
   <title>Simpsons</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
 <div class="ui inverted left vertical sidebar menu">
-  <a class="item">
+  <a href="/" class="item">
     <i class="home icon"></i>
     Home
   </a>
-  <a class="item">
-    <i class="block layout icon"></i>
-    Topics
+  <a href="/history" class="item">
+    <i class="history icon"></i>
+    History
   </a>
-  <a class="item">
-    <i class="smile icon"></i>
-    Friends
+  <a href="/videos/random" class="item">
+    <i class="random icon"></i>
+    Random
   </a>
 </div>
+<div class="pusher">
 
-<%= yield %>
+<div class="ui black huge launch right attached button sidebar-button">
+    <i class="icon list layout"></i>
+</div>
+    <%= yield %>
+</div>
 
 </body>
 </html>
