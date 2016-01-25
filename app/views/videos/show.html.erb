@@ -26,9 +26,50 @@
 
 <script type="text/javascript">
   var player = videojs('video', { 'html5':{nativeTextTracks: false} }, function(){
+    var seekStep = 10
     this.hotkeys({
-      alwaysCaptureHotkeys: true
+      alwaysCaptureHotkeys: true,
+      seekStep: seekStep,
+      // Custom Keys
+      customKeys: {
+        j_rewind: {
+          key: function(e) {
+            // j key
+            return (e.which === 74);
+          },
+          handler: function(player, options) {
+            curTime = player.currentTime() - seekStep;
+            if (player.currentTime() <= seekStep) {
+              curTime = 0;
+            }
+            player.currentTime(curTime);
+          }
+        },
+        k_playpause: {
+          key: function(e) {
+            // k key
+            return (e.which === 75);
+          },
+          handler: function(player, options) {
+            if (player.paused()) {
+                  player.play();
+                } else {
+                  player.pause();
+                }
+          }
+        },
+        l_forward: {
+          key: function(e) {
+            // l key
+            return (e.which === 76);
+          },
+          handler: function(player, options) {
+            player.currentTime(player.currentTime() + seekStep);
+          }
+        }
+      }
     });
+
 
   })
   var watched = Cookies.getJSON('watched');
