@@ -7,19 +7,22 @@
 <h2 class="ui center aligned header">Season <%= season %></h2>
 <div class="ui six doubling cards grid container">
   <% @videos[season].sort_by(&:episode_number).each do |video| %>
-    <div class="card" data-video-id="<%= video.id %>">
+    <a class="card" data-video-id="<%= video.id %>" href="/watch/<%= video.season %>/<%= video.episode_number %>">
       <div class="blurring dimmable image">
         <div class="ui">
         </div>
         <img class="lazy" data-original="<%= video.thumbnail_path %>">
       </div>
       <div class="content">
-        <a class="header" href="/watch/<%= video.season %>/<%= video.episode_number %>"><%= video.title %></a>
+      <div class="header">
+        <%= video.title %>
+      </div>
+        
         <div class="meta">
           S<%= video.season %> E<%= video.episode_number %>
         </div>
       </div>
-    </div>
+    </a>
   <% end %>
 </div>
 <% end %>
@@ -27,7 +30,6 @@
 
 <script type="text/javascript">
   $(function() {
-      $("img.lazy").lazyload();
       var watched = Cookies.getJSON('watched');
       if (watched) {
         for (var i = 0; i < watched.length; i++) {
@@ -35,6 +37,7 @@
         }
         $('.ui.dimmed').parent('.dimmable.image').dimmer('show');
       }
+      $("img.lazy").lazyload();
       
   });
 
