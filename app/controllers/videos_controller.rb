@@ -15,6 +15,7 @@ class VideosController < ApplicationController
     # random_list_sorted_videos = Video.find(random_ids).index_by(&:id).slice(*random_ids).values
     # @videos = random_list_sorted_videos
     @videos = Video.all.group_by(&:season)
+    @random_video = Video.random(Video.count).first
     @videos_seasons = @videos.keys
 
   end
@@ -22,6 +23,7 @@ class VideosController < ApplicationController
   # GET /videos/1
   # GET /videos/1.json
   def show
+    @random_video = Video.random(Video.count).first
 
   end
 

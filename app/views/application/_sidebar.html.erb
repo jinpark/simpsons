@@ -1,0 +1,27 @@
+<div class="ui inverted left vertical sidebar menu">
+  <a href="/" class="item">
+    <i class="home icon"></i>
+    Home
+  </a>
+  <a href="/history" class="item">
+    <i class="history icon"></i>
+    History
+  </a>
+  <a href="/watch/<%= @random_video.season %>/<%= @random_video.episode_number %>" class="item">
+    <i class="random icon"></i>
+    Random
+    <div class="ui black card">
+      <div class="image">
+        <img class="ui image" src="<%= @random_video.thumbnail_path %>">
+      </div>
+      <div class="content">
+        <div class="header">
+          <%= @random_video.title %>
+        </div>
+        <div class="meta">
+          S<%= @random_video.season %> E<%= @random_video.episode_number %>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
