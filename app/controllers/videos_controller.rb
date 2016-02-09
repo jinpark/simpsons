@@ -17,7 +17,6 @@ class VideosController < ApplicationController
     @videos = Video.all.group_by(&:season)
     @random_video = Video.random(Video.count).first
     @videos_seasons = @videos.keys
-
   end
 
   # GET /videos/1
