@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :seasons
   resources :screenshots
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'watch/:season/:episode_number/' => 'videos#show'

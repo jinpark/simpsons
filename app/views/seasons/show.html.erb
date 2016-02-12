@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Image path:</strong>
+  <%= @season.image_path %>
+</p>
+
+<p>
+  <strong>Season number:</strong>
+  <%= @season.season_number %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @season.description %>
+</p>
+
+<%= link_to 'Edit', edit_season_path(@season) %> |
+<%= link_to 'Back', seasons_path %>
