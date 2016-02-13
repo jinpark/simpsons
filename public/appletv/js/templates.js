@@ -8,6 +8,15 @@ function seasonTemplate(data){
     return template({data: data})  
 }
 
+function loaderTemplate(data){
+    var template = Handlebars.compile(loaderHandlebars);   
+    return template({data: data})  
+}
+
+function errorTemplate(data){
+    var template = Handlebars.compile(errorHandlebars);   
+    return template({data: data})  
+}
 
 var seasonsHandlebars = `<?xml version="1.0" encoding="UTF-8" ?>
 <document>
@@ -23,7 +32,7 @@ var seasonsHandlebars = `<?xml version="1.0" encoding="UTF-8" ?>
       </header>
       <section>
         <header>
-          <title>Seasons</title>
+          <title style="color: rgba(255, 255, 255, 1);" class="white">Seasons</title>
         </header>
         {{#each data}}
         <listItemLockup data-season-number='{{this.season_number}}'>
@@ -103,4 +112,19 @@ var seasonHandlebars = `<?xml version="1.0" encoding="UTF-8" ?>
       </section>
     </shelf>
   </productBundleTemplate>
+</document>`;
+
+var loaderHandlebars = `<document>
+    <loadingTemplate>
+        <activityIndicator>
+            <title>{{data.message}}</title>
+        </activityIndicator>
+    </loadingTemplate>
+</document>`;
+
+var errorHandlebars = `<document>
+  <descriptiveAlertTemplate>
+    <title>{{data.title}}</title>
+    <description>{{data.message}}</description>
+  </descriptiveAlertTemplate>
 </document>`;
