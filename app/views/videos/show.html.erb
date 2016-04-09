@@ -1,6 +1,5 @@
 <p id="notice"><%= notice %></p>
-<script src="http://vjs.zencdn.net/5.4.4/video.js"></script>
-<script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
+
 <div class="button-list">
   <button class="ui icon button screenshot" id="screenshot"><i class="photo icon"></i></button>
   <button class="ui icon button gif" id="gif"><i class="video play icon"></i></button>
@@ -16,14 +15,21 @@
 </div>
 
 <video id="video" class="video-js vjs-big-play-centered" controls preload="auto" poster="<%= @video.thumbnail_path %>">
+  <% if @video.use_dash %>
+  <source src="<%= @video.dash_path%>" type="application/dash+xml">
+  <% else %>
   <source src="<%= @video.video_path %>">
+  <% end %>
   <track kind="captions" src="<%= @video.subtitle_path %>" srclang="en" label="English" default>
   <p class="vjs-no-js">
     To view this video please enable JavaScript, and consider upgrading to a web browser that
     <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
   </p>
 </video>
-
+<script src="http://vjs.zencdn.net/5.4.4/video.js"></script>
+<script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
+<script src="http://dashif.org/reference/players/javascript/v2.0.0/dist/dash.all.min.js"></script>
+<script src="http://cdn.rawgit.com/videojs/videojs-contrib-dash/5d10bdcb3f4eb6de78b2f3a971dcadbd21d1fa13/src/js/videojs-dash.js"></script>
 <script type="text/javascript">
   var player = videojs('video', { 'html5':{nativeTextTracks: false} }, function(){
     var seekStep = 10

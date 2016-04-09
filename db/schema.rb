@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160102100326) do
+ActiveRecord::Schema.define(version: 20160409133250) do
 
   create_table "screenshots", force: :cascade do |t|
     t.integer  "season"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(version: 20160102100326) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "screenshot_path"
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.string   "image_path"
+    t.integer  "season_number"
+    t.text     "description"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "videos", force: :cascade do |t|
@@ -33,6 +41,11 @@ ActiveRecord::Schema.define(version: 20160102100326) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "subtitle_path"
+    t.integer  "season_id"
+    t.string   "dash_path"
+    t.boolean  "use_dash"
   end
+
+  add_index "videos", ["season_id"], name: "index_videos_on_season_id"
 
 end

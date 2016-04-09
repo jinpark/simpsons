@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  *= require semantic_ui/semantic_ui
+ *= require video-js.min.css
  */
 
 p#notice {
@@ -22,4 +23,8 @@ p#notice {
 .sidebar-button {
     position: absolute !important;
     z-index: 2;
+}
+
+.vjs-dashjs-hide-errors .vjs-error-display {
+  display: none !important;
 }
