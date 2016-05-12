@@ -15,159 +15,63 @@
 </div>
 
 <video id="video" class="video-js vjs-big-play-centered" controls preload="auto" poster="<%= @video.thumbnail_path %>">
-  <% if @video.use_dash %>
-  <source src="<%= @video.dash_path%>" type="application/dash+xml">
-  <% else %>
-  <source src="<%= @video.video_path %>">
-  <% end %>
   <track kind="captions" src="<%= @video.subtitle_path %>" srclang="en" label="English" default>
   <p class="vjs-no-js">
     To view this video please enable JavaScript, and consider upgrading to a web browser that
     <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
   </p>
 </video>
-<script src="http://vjs.zencdn.net/5.4.4/video.js"></script>
-<script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
-<script src="http://dashif.org/reference/players/javascript/v2.0.0/dist/dash.all.min.js"></script>
-<script src="http://cdn.rawgit.com/videojs/videojs-contrib-dash/5d10bdcb3f4eb6de78b2f3a971dcadbd21d1fa13/src/js/videojs-dash.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/2.0.0-beta2/shaka-player.compiled.debug.js"></script>
+<script src="http://shaka-player-demo.appspot.com/demo/controls.js"></script>
 <script type="text/javascript">
-  var player = videojs('video', { 'html5':{nativeTextTracks: false} }, function(){
-    var seekStep = 10
-    this.hotkeys({
-      alwaysCaptureHotkeys: true,
-      seekStep: seekStep,
-      // Custom Keys
-      customKeys: {
-        j_rewind: {
-          key: function(e) {
-            // j key
-            return (e.which === 74);
-          },
-          handler: function(player, options) {
-            curTime = player.currentTime() - seekStep;
-            if (player.currentTime() <= seekStep) {
-              curTime = 0;
-            }
-            player.currentTime(curTime);
-          }
-        },
-        k_playpause: {
-          key: function(e) {
-            // k key
-            return (e.which === 75);
-          },
-          handler: function(player, options) {
-            if (player.paused()) {
-                  player.play();
-                } else {
-                  player.pause();
-                }
-          }
-        },
-        l_forward: {
-          key: function(e) {
-            // l key
-            return (e.which === 76);
-          },
-          handler: function(player, options) {
-            player.currentTime(player.currentTime() + seekStep);
-          }
-        }
-      }
-    });
+  var manifestUri = "<%= @video.dash_path%>";
+  function initApp() {
+  // Install built-in polyfills to patch browser incompatibilities.
+  shaka.polyfill.installAll();
 
-
-  })
-  var watched = Cookies.getJSON('watched');
-  if (watched) {
-    if (watched.indexOf( <%= @video.id %> ) < 0 ) {
-      watched.push(<%= @video.id %>);
-      Cookies.set('watched', watched);
+  // Check to see if the browser supports the basic APIs Shaka needs.
+  // This is an asynchronous check.
+  shaka.Player.support().then(function(support) {
+    // This executes when the asynchronous check is complete.
+    if (support.supported) {
+      // Everything looks good!
+      initPlayer();
+    } else {
+      // This browser does not have the minimum set of APIs we need.
+      console.error('Browser not supported!');
     }
-  } else {
-    Cookies.set('watched', [<%= @video.id %>]);
-  }
-  $('.info-popup').popup();
-  $('.screenshot, .gif').popup({
-    inline: true,
-    on: 'manual'
   });
-  var recording = false;
-  var startTime, endTime;
-  $(document).ready(function(){
-    $('#gif').click(function(){
-      $('#gif i').toggleClass('video play circle red');
-      if (recording == false) {
-        recording = true;
-        startTime = $('video')[0].currentTime;
-      } else {
-        recording = false;
-        endTime = $('video')[0].currentTime;
-        $.ajax({
-          type: 'POST',
-          url: '/screenshots.json', 
-          dataType: "json",
-          data: {
-            video_id: <%= @video.id %>,
-            screenshot: {
-              time_start: startTime,
-              time_end: endTime,
-              season: <%= @video.season %>,
-              episode_number: <%= @video.episode_number %>
-            }
-          }
-        }).done(function(data){
-          console.log(data);
-          $('.copy').val(document.location.origin + data.screenshot_path);
-          var clipboard = new Clipboard('.copy', {
-              text: function(trigger) {
-                  return $(trigger).val();
-              }
-          });
-          clipboard.on('success', function(e) {
-              $('.screenshot, .gif').popup('toggle');
-          });
-          $('.screenshot, .gif').popup('toggle');
-          $('#gif i').removeClass();
-          $('#gif i').addClass('icon video play');
-          $('#gif').toggleClass('disabled');
-        })
-        $('#gif i').removeClass();
-        $('#gif i').addClass('icon spinner');
-        $('#gif').toggleClass('disabled');
-      }
-    });
-    $('.screenshot').click(function(){
-      $.ajax({
-        type: 'POST',
-        url: '/screenshots.json', 
-        dataType: "json",
-        data: {
-          video_id: <%= @video.id %>,
-          screenshot: {
-            time_start: $('video')[0].currentTime,
-            season: <%= @video.season %>,
-            episode_number: <%= @video.episode_number %>
-          }
-        }
-      }).done(function(data){
-        console.log(data);
-        $('.screenshot i').toggleClass('photo spinner');
-        $('.screenshot').toggleClass('disabled');
-        $('.copy').val(document.location.origin + data.screenshot_path);
-        var clipboard = new Clipboard('.copy', {
-            text: function(trigger) {
-                return $(trigger).val();
-            }
-        });
-        clipboard.on('success', function(e) {
-            $('.screenshot, .gif').popup('toggle');
-        });
-        $('.screenshot, .gif').popup('toggle');
-      })
-      $('.screenshot i').toggleClass('photo spinner');
-      $('.screenshot').toggleClass('disabled');
-    })
-  })
+}
+
+function initPlayer() {
+  // Create a Player instance.
+  var video = document.getElementById('video');
+  var player = new shaka.Player(video);
+
+  // Attach player to the window to make it easy to access in the JS console.
+  window.player = player;
+
+  // Listen for error events.
+  player.addEventListener('error', onErrorEvent);
+
+  // Try to load a manifest.
+  // This is an asynchronous process.
+  player.load(manifestUri).then(function() {
+    // This runs if the asynchronous load is successful.
+    console.log('The video has now been loaded!');
+  }).catch(onError);  // onError is executed if the asynchronous load fails.
+}
+
+function onErrorEvent(event) {
+  // Extract the shaka.util.Error object from the event.
+  onError(event.detail);
+}
+
+function onError(error) {
+  // Log the error.
+  console.error('Error code', error.code, 'object', error);
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
 </script>
-<link href="http://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet">
+
